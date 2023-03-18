@@ -17,11 +17,9 @@ class App extends Component {
 
 	render() {
 		return (
-			<Container fluid>
-				<div className="flexcontainer">
-					<Routes />
-				</div>
-			</Container>
+			<div className="flexcontainer">
+				<Routes />
+			</div>
 		);
 	}
 }
