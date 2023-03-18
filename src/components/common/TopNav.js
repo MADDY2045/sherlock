@@ -13,7 +13,7 @@ function TopNav(props) {
 	}
 
 	return (
-		<div>
+		<div className="columns">
 			<div className="nav-menu">
 				{props.routes.map(({ path, title }) => (
 					<Link key={path} to={`${props.prefix}${path}`}>

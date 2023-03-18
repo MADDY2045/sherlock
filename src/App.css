@@ -10,3 +10,27 @@
 	justify-content: space-evenly;
 	min-height: 90vh;
 }
+
+div.flexcontainer {
+	display: flex;
+	min-height: 200px;
+	font-size: 15px;
+	border: 2px solid orange;
+}
+
+div.columns {
+	padding: 10px;
+	color: white;
+}
+div.columns:nth-of-type(1) {
+	flex: 0.5;
+	background: #1b2631;
+}
+div.columns:nth-of-type(2) {
+	flex: 1;
+	background: #424949;
+}
+div.columns:nth-of-type(3) {
+	flex: 2;
+	background: #4d5656;
+}

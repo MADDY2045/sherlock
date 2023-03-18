@@ -18,7 +18,7 @@ class App extends Component {
 	render() {
 		return (
 			<Container fluid>
-				<div className="main-div">
+				<div className="flexcontainer">
 					<Routes />
 				</div>
 			</Container>

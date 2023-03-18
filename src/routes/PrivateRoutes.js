@@ -15,7 +15,7 @@ function PrivateRoutes() {
 	return (
 		<Fragment>
 			<TopNav routes={allowedRoutes} prefix={match.path} />
-			<div>FILTER MENU</div>
+			<div className="columns">FILTER MENU</div>
 			<MapAllowedRoutes routes={allowedRoutes} basePath="/app" isAddNotFound />
 		</Fragment>
 	);

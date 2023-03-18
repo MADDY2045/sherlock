@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 function Module1() {
-	return <h1>MODULE 1</h1>;
+	return <div className="columns">MODULE 1</div>;
 }
 
 export default memo(Module1);

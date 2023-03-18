@@ -20,7 +20,7 @@ function PublicRoutes() {
 				</Route>
 			</Switch>
 		</Fragment>
-	)
+	);
 }
 
 export default PublicRoutes;
