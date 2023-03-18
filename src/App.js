@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Routes from 'routes';
 import './App.css';
 
-class App extends Component {
-	constructor(props) {
-		super(props);
+const App = (props) => {
+	useEffect(() => {
+		console.log('rendered:::');
 		window.addEventListener('storage', ({ oldValue, newValue }) => {
 			// Note: For this app we don't have any server to verify role/roles, in your case you can verify role/roles from your server and update accordingly.
 			alert(
@@ -13,15 +13,13 @@ class App extends Component {
 			);
 			localStorage.setItem('roles', oldValue);
 		});
-	}
+	}, []);
 
-	render() {
-		return (
-			<div className="flexcontainer">
-				<Routes />
-			</div>
-		);
-	}
-}
+	return (
+		<div className={'flexcontainer'}>
+			<Routes />
+		</div>
+	);
+};
 
 export default App;
