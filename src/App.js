@@ -16,7 +16,7 @@ const App = (props) => {
 	}, []);
 
 	return (
-		<div className={'flexcontainer'}>
+		<div>
 			<Routes />
 		</div>
 	);

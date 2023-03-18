@@ -13,11 +13,11 @@ function PrivateRoutes() {
 	else return <Redirect to="/" />;
 
 	return (
-		<Fragment>
+		<div className="flexcontainer">
 			<TopNav routes={allowedRoutes} prefix={match.path} />
 			<div className="columns">FILTER MENU</div>
 			<MapAllowedRoutes routes={allowedRoutes} basePath="/app" isAddNotFound />
-		</Fragment>
+		</div>
 	);
 }
 
