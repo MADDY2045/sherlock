@@ -1,10 +1,7 @@
 import React, { memo } from 'react';
-import { JumbotronWrapper } from './common';
 
 function Dashboard() {
-	return (
-		<JumbotronWrapper title="Dashboard" />
-	)
+	return <>Dashboard</>;
 }
 
 export default memo(Dashboard);

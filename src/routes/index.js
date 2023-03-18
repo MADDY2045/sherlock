@@ -16,8 +16,7 @@ function Routes() {
 				</Route>
 			</Switch>
 		</Router>
-	)
+	);
 }
 
 export default memo(Routes);
-

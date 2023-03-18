@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { Alert, Form, Button } from 'react-bootstrap';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { JumbotronWrapper } from './common';
 
@@ -26,7 +26,7 @@ function Login() {
 	}
 
 	return (
-		<JumbotronWrapper title="Login" description="">
+		<>
 			<Form.Group controlId="exampleForm.ControlSelect1">
 				<Form.Label>Select Role:</Form.Label>
 				<Form.Control
@@ -44,7 +44,7 @@ function Login() {
 				</Form.Control>
 			</Form.Group>
 			<Alert variant="primary">Support multi roles.</Alert>
-			<div className="text-right">
+			<div>
 				<Link to="/forgot-password">Forgot Password</Link>
 				&nbsp;&nbsp;&nbsp;
 				<Link to="/register">Register</Link>
@@ -56,7 +56,7 @@ function Login() {
 			>
 				Login
 			</Button>
-		</JumbotronWrapper>
+		</>
 	);
 }
 

@@ -1,10 +1,7 @@
 import React, { memo } from 'react';
-import { JumbotronWrapper } from './common';
 
 function Module2() {
-	return (
-		<JumbotronWrapper title="Module - 2" />
-	)
+	return <h1>MODULE 2</h1>;
 }
 
 export default memo(Module2);
