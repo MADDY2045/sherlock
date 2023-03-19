@@ -17,15 +17,11 @@ import {
 const getPeople = () => [
 	{
 		name: 'Susie',
-		surname: 'Quattro',
-		rowMapperId: 1,
-		rowMapperColId: 'surname'
+		surname: 'Quattro'
 	},
 	{
 		name: 'Thomas',
-		surname: 'Goldman',
-		rowMapperId: 0,
-		rowMapperColId: 'name'
+		surname: 'Goldman'
 	}
 ];
 
@@ -63,14 +59,12 @@ const getRows = (people) => [
 				{
 					type: 'myText',
 					text: person.name,
-					rowMapperColId: person.rowMapperColId,
-					rowMapperId: person.rowMapperId
+					rowMapper: 'name'
 				},
 				{
 					type: 'myText',
 					text: person.surname,
-					rowMapperColId: person.rowMapperColId,
-					rowMapperId: person.rowMapperId
+					rowMapper: 'surname'
 				}
 			]
 		};
@@ -123,6 +117,14 @@ function Sherlock() {
 		setAscOrder((prev) => !prev);
 	}
 
+	function getCheckBoxRow(cell) {
+		if (cell.isHeader && cell.text === 'name') {
+			return <input type={'checkbox'} />;
+		}
+		if (cell.rowMapper === 'name') {
+			return <input type={'checkbox'} onClick={(e) => e.stopPropagation()} />;
+		}
+	}
 	class FlagCellTemplate {
 		getCompatibleCell(uncertainCell) {
 			const text = getCellProperty(uncertainCell, 'text', 'string');
@@ -145,9 +147,11 @@ function Sherlock() {
 		}
 
 		render(cell, isInEditMode, onCellChanged) {
+			console.log('cell:::', cell);
 			if (!isInEditMode) {
 				return (
 					<>
+						{getCheckBoxRow(cell)}
 						{cell.text}
 						{cell.isHeader && (
 							<i
@@ -195,6 +199,8 @@ function Sherlock() {
 			<ReactGrid
 				rows={rows}
 				columns={columns}
+				enableColumnSelection
+				onFocusLocationChanged={(e) => console.log('e::::', e)}
 				customCellTemplates={{ myText: new FlagCellTemplate() }}
 			/>
 		</div>
