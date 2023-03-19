@@ -1,7 +1,204 @@
 import React, { memo } from 'react';
+import { ReactGrid, Column, Row } from '@silevis/reactgrid';
+import '@silevis/reactgrid/styles.css';
+import {
+	CellTemplate,
+	Cell,
+	Compatible,
+	Uncertain,
+	UncertainCompatible,
+	isNavigationKey,
+	getCellProperty,
+	isAlphaNumericKey,
+	keyCodes
+} from '@silevis/reactgrid';
+//import { FlagCellTemplate } from '../customCell/customCell';
 
-function Profile() {
-	return <div className="columns">Sherlock</div>;
+const getPeople = () => [
+	{
+		name: 'Susie',
+		surname: 'Quattro',
+		rowMapperId: 1,
+		rowMapperColId: 'surname'
+	},
+	{
+		name: 'Thomas',
+		surname: 'Goldman',
+		rowMapperId: 0,
+		rowMapperColId: 'name'
+	}
+];
+
+const getColumns = () => [
+	{ columnId: 'name', width: 150 },
+	{ columnId: 'surname', width: 150 }
+];
+
+let headerRow = {
+	rowId: 'header',
+	cells: [
+		{
+			type: 'myText',
+			text: 'name',
+			nonEditable: true,
+			isHeader: true,
+			isSorted: true
+		},
+		{
+			type: 'myText',
+			text: 'surname',
+			nonEditable: true,
+			isHeader: true,
+			isSorted: false
+		}
+	]
+};
+
+const getRows = (people) => [
+	headerRow,
+	...people.map((person, idx) => {
+		return {
+			rowId: idx,
+			cells: [
+				{
+					type: 'myText',
+					text: person.name,
+					rowMapperColId: person.rowMapperColId,
+					rowMapperId: person.rowMapperId
+				},
+				{
+					type: 'myText',
+					text: person.surname,
+					rowMapperColId: person.rowMapperColId,
+					rowMapperId: person.rowMapperId
+				}
+			]
+		};
+	})
+];
+
+function Sherlock() {
+	const [people, setPeople] = React.useState(getPeople());
+	const [bufferPeople, setBufferPeople] = React.useState(getPeople());
+	const [ascOrder, setAscOrder] = React.useState(false);
+	let rows = getRows(people);
+	const columns = getColumns();
+
+	function filterByValue(array, string) {
+		return array.filter((o) =>
+			Object.keys(o).some(
+				(k) =>
+					k !== 'rowMapperColId' &&
+					typeof o[k] === 'string' &&
+					o[k].toLowerCase().includes(string.toLowerCase())
+			)
+		);
+	}
+
+	const handleFilter = (e) => {
+		let resp = filterByValue(bufferPeople, e.target.value);
+		setPeople([...resp]);
+	};
+
+	function sortColumns(colId) {
+		let data = people.sort((a, b) => {
+			let x = !ascOrder ? b[colId].toLowerCase() : a[colId].toLowerCase();
+			let y = !ascOrder ? a[colId].toLowerCase() : b[colId].toLowerCase();
+			if (x < y) {
+				return -1;
+			}
+			if (x > y) {
+				return 1;
+			}
+			return 0;
+		});
+
+		let dataIndex = headerRow.cells.findIndex((item) => item.text == colId);
+
+		if (dataIndex !== -1) {
+			let prevSortValue = headerRow.cells[dataIndex].isSorted;
+			headerRow.cells[dataIndex].isSorted = !prevSortValue;
+		}
+		setPeople([...data]);
+		setAscOrder((prev) => !prev);
+	}
+
+	class FlagCellTemplate {
+		getCompatibleCell(uncertainCell) {
+			const text = getCellProperty(uncertainCell, 'text', 'string');
+			const value = parseFloat(text);
+			return { ...uncertainCell, text, value };
+		}
+
+		handleKeyDown(cell, keyCode, ctrl, shift, alt) {
+			if (!ctrl && !alt && isAlphaNumericKey(keyCode))
+				return { cell, enableEditMode: true };
+			return {
+				cell,
+				enableEditMode:
+					keyCode === keyCodes.POINTER || keyCode === keyCodes.ENTER
+			};
+		}
+
+		update(cell, cellToMerge) {
+			return this.getCompatibleCell({ ...cell, text: cellToMerge.text });
+		}
+
+		render(cell, isInEditMode, onCellChanged) {
+			if (!isInEditMode) {
+				return (
+					<>
+						{cell.text}
+						{cell.isHeader && (
+							<i
+								data-col-id={cell.text}
+								onClick={(e) => {
+									sortColumns(e.target.getAttribute('data-col-id'));
+								}}
+								className={`fa ${
+									cell.isSorted ? 'fa-sort-asc' : 'fa-sort-desc'
+								}`}
+								aria-hidden="true"
+							></i>
+						)}
+					</>
+				);
+			}
+			return (
+				<input
+					ref={(input) => {
+						input && input.focus();
+					}}
+					defaultValue={cell.text}
+					onChange={(e) =>
+						onCellChanged(
+							this.getCompatibleCell({ ...cell, text: e.currentTarget.value }),
+							false
+						)
+					}
+					onCopy={(e) => e.stopPropagation()}
+					onCut={(e) => e.stopPropagation()}
+					onPaste={(e) => e.stopPropagation()}
+					onPointerDown={(e) => e.stopPropagation()}
+					onKeyDown={(e) => {
+						if (isAlphaNumericKey(e.keyCode) || isNavigationKey(e.keyCode))
+							e.stopPropagation();
+					}}
+				/>
+			);
+		}
+	}
+
+	return (
+		<div className="columns">
+			<input onChange={handleFilter} type="text" />
+			<ReactGrid
+				rows={rows}
+				columns={columns}
+				customCellTemplates={{ myText: new FlagCellTemplate() }}
+			/>
+		</div>
+	);
 }
 
-export default memo(Profile);
+export default memo(Sherlock);

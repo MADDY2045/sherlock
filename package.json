@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.11.13",
+    "@mui/system": "^5.11.13",
+    "@mui/x-data-grid": "^6.0.2",
+    "@silevis/reactgrid": "^4.0.4",
     "bootstrap": "^4.3.1",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",

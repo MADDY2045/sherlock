@@ -150,3 +150,13 @@ div.columns:nth-of-type(3) {
 .text-muted {
 	color: white !important;
 }
+
+.fa-sort-asc {
+	position: absolute;
+	right: 14px;
+}
+
+.fa-sort-desc {
+	position: absolute;
+	right: 14px;
+}
