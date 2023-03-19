@@ -6,18 +6,21 @@ function PublicRoutes() {
 	return (
 		<Fragment>
 			<Switch>
-				<Route path="/forgot-password">
+				{/* <Route path="/forgot-password">
 					<ForgotPassword />
-				</Route>
-				<Route path="/register">
+				</Route> */}
+				{/* <Route path="/register">
 					<Register />
-				</Route>
-				<Route path="/login">
+				</Route> */}
+				<Route path="">
 					<Login />
 				</Route>
-				<Route path="">
-					<LandingPage />
+				<Route path="/">
+					<Login />
 				</Route>
+				{/* <Route path="">
+					<LandingPage />
+				</Route> */}
 			</Switch>
 		</Fragment>
 	);

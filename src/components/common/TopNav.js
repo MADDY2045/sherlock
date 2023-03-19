@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import { isLoggedIn } from 'utils';
+import sherlock from '../../assets/images/detectiveHat.png';
 
 function TopNav(props) {
 	let history = useHistory();
@@ -15,10 +16,13 @@ function TopNav(props) {
 	return (
 		<div className="columns">
 			<div className="nav-menu">
-				{props.routes.map(({ path, title }) => (
-					<Link key={path} to={`${props.prefix}${path}`}>
-						{title}
-					</Link>
+				{props.routes.map(({ path, title, src }, index) => (
+					<div key={index} className="nav-icon-div">
+						<Link className={title} key={path} to={`${props.prefix}${path}`}>
+							<img className="nav-img-icon" src={src} alt="test" />
+							{title}
+						</Link>
+					</div>
 				))}
 				{isLoggedIn() && <Button onClick={handleLogout}>Logout</Button>}
 			</div>
