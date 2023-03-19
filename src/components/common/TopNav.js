@@ -24,7 +24,14 @@ function TopNav(props) {
 						</Link>
 					</div>
 				))}
-				{isLoggedIn() && <Button onClick={handleLogout}>Logout</Button>}
+				{isLoggedIn() && (
+					<Button
+						style={{ position: 'absolute', bottom: 20 }}
+						onClick={handleLogout}
+					>
+						Logout
+					</Button>
+				)}
 			</div>
 		</div>
 	);

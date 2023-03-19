@@ -9,14 +9,15 @@ function Login() {
 	let history = useHistory();
 
 	function handleChange(e) {
-		const { options } = e.target;
+		const value = e.target.value.toUpperCase();
+		console.log('value::::', value);
 		let selected = [];
-
-		for (let i = 0; i < options.length; i++) {
-			if (options[i].selected) {
-				selected.push(options[i].value);
-			}
-		}
+		selected.push(value);
+		// for (let i = 0; i < options.length; i++) {
+		// 	if (options[i].selected) {
+		// 		selected.push(options[i].value);
+		// 	}
+		// }
 		setSelected(selected);
 	}
 
@@ -26,37 +27,36 @@ function Login() {
 	}
 
 	return (
-		<>
-			<Form.Group controlId="exampleForm.ControlSelect1">
-				<Form.Label>Select Role:</Form.Label>
-				<Form.Control
-					as="select"
-					value={selected}
-					onChange={handleChange}
-					multiple
+		<div className="login-form col-4">
+			<div className="form-level">
+				<Form.Group controlId="exampleForm.ControlSelect1">
+					<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Label>LOGIN</Form.Label>
+						<Form.Control
+							type="text"
+							required
+							placeholder="Enter User"
+							onChange={handleChange}
+						/>
+						<Form.Text className="text-muted">
+							Based on roles, the app will show the menu list
+						</Form.Text>
+					</Form.Group>
+
+					<Form.Group className="mb-3" controlId="formBasicPassword">
+						<Form.Label>Password</Form.Label>
+						<Form.Control type="password" placeholder="Password" />
+					</Form.Group>
+				</Form.Group>
+				<Button
+					variant="outline-primary"
+					onClick={handleClick}
+					disabled={!selected.length}
 				>
-					{/* TODO: Dynamic role options */}
-					<option value="SUPER_ADMIN">SUPER_ADMIN</option>
-					<option value="ADMIN">ADMIN</option>
-					<option value="MANAGER">MANAGER</option>
-					<option value="CUSTOMER">CUSTOMER</option>
-					<option value="GUEST">GUEST</option>
-				</Form.Control>
-			</Form.Group>
-			<Alert variant="primary">Support multi roles.</Alert>
-			<div>
-				<Link to="/forgot-password">Forgot Password</Link>
-				&nbsp;&nbsp;&nbsp;
-				<Link to="/register">Register</Link>
+					Login
+				</Button>
 			</div>
-			<Button
-				variant="primary"
-				onClick={handleClick}
-				disabled={!selected.length}
-			>
-				Login
-			</Button>
-		</>
+		</div>
 	);
 }
 

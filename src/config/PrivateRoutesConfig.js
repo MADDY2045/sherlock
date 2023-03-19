@@ -7,15 +7,15 @@ import profile from '../assets/images/profile.png';
 import search from '../assets/images/search.png';
 // Components
 import {
-	Module1,
-	Module2,
-	Module3,
-	ModuleN,
+	Accuracy,
+	Forecast,
+	Exception,
+	Profile,
 	ModuleNChild1,
 	ModuleNChild2,
 	ModuleNChild3,
-	Dashboard,
-	Profile
+	Search,
+	Sherlock
 } from 'components';
 
 // TODO:
@@ -38,27 +38,27 @@ import {
 
 export default [
 	{
-		component: Module1,
-		path: '/',
+		component: Accuracy,
+		path: '/accuracy',
 		title: 'Accuracy',
-		exact: true,
 		src: accuracy
 	},
 	{
-		component: Module2,
-		path: '/module-2',
+		component: Forecast,
+		path: '/',
 		title: 'Forecast',
-		src: forecast
+		src: forecast,
+		exact: true
 	},
 	{
-		component: Module3,
-		path: '/module-3',
+		component: Exception,
+		path: '/exception',
 		title: 'Exception',
 		src: exception
 	},
 	{
-		component: ModuleN,
-		path: '/module-n',
+		component: Profile,
+		path: '/profile',
 		title: 'Profile',
 		src: profile,
 		permission: [Roles.SUPER_ADMIN, Roles.ADMIN, Roles.MANAGER],
@@ -82,17 +82,17 @@ export default [
 		]
 	},
 	{
-		component: Dashboard,
-		path: '/dashboard',
+		component: Search,
+		path: '/search',
 		title: 'Search',
 		src: search,
 		permission: [Roles.SUPER_ADMIN, Roles.ADMIN]
 	},
 	{
-		component: Profile,
-		path: '/profile',
+		component: Sherlock,
+		path: '/sherlock',
 		title: 'Sherlock',
-		permission: [Roles.SUPER_ADMIN, Roles.ADMIN, Roles.MANAGER, Roles.CUSTOMER],
+		permission: [Roles.SUPER_ADMIN, Roles.ADMIN],
 		src: sherlock
 	}
 ];
