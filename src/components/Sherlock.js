@@ -16,16 +16,19 @@ import {
 
 const getPeople = () => [
 	{
+		checked: false,
 		name: 'Susie',
 		surname: 'Quattro'
 	},
 	{
+		checked: false,
 		name: 'Thomas',
 		surname: 'Goldman'
 	}
 ];
 
 const getColumns = () => [
+	{ columnId: 'checked', width: 10 },
 	{ columnId: 'name', width: 150 },
 	{ columnId: 'surname', width: 150 }
 ];
@@ -33,6 +36,12 @@ const getColumns = () => [
 let headerRow = {
 	rowId: 'header',
 	cells: [
+		{
+			type: 'myText',
+			isHeader: true,
+			checked: Boolean(false),
+			text: 'checked'
+		},
 		{
 			type: 'myText',
 			text: 'name',
@@ -56,6 +65,11 @@ const getRows = (people) => [
 		return {
 			rowId: idx,
 			cells: [
+				{
+					type: 'checkbox',
+					checked: Boolean(person.checked),
+					rowMapper: 'checked'
+				},
 				{
 					type: 'myText',
 					text: person.name,
@@ -92,6 +106,25 @@ function Sherlock() {
 	const handleFilter = (e) => {
 		let resp = filterByValue(bufferPeople, e.target.value);
 		setPeople([...resp]);
+	};
+
+	const makeAllChecked = () => {
+		/* update header checkbox */
+		let dataIndex = headerRow.cells.findIndex(
+			(item) => item.text === 'checked'
+		);
+		if (dataIndex !== -1) {
+			headerRow.cells[dataIndex] = {
+				...headerRow.cells[dataIndex],
+				checked: !headerRow.cells[dataIndex].checked
+			};
+		}
+
+		/* update row level checkbox */
+		let data = people.map((item) => {
+			return { ...item, checked: headerRow.cells[dataIndex].checked };
+		});
+		setPeople([...data]);
 	};
 
 	function sortColumns(colId) {
@@ -147,23 +180,34 @@ function Sherlock() {
 		}
 
 		render(cell, isInEditMode, onCellChanged) {
-			console.log('cell:::', cell);
 			if (!isInEditMode) {
 				return (
 					<>
-						{getCheckBoxRow(cell)}
-						{cell.text}
+						{/* {getCheckBoxRow(cell)} */}
+						{cell.text !== 'checked' && cell.text}
 						{cell.isHeader && (
-							<i
-								data-col-id={cell.text}
-								onClick={(e) => {
-									sortColumns(e.target.getAttribute('data-col-id'));
-								}}
-								className={`fa ${
-									cell.isSorted ? 'fa-sort-asc' : 'fa-sort-desc'
-								}`}
-								aria-hidden="true"
-							></i>
+							<>
+								{cell.text === 'checked' && (
+									<input
+										className="header-level-checkbox"
+										type={'checkbox'}
+										checked={cell.checked}
+										onChange={makeAllChecked}
+									/>
+								)}
+								{cell.text !== 'checked' && (
+									<i
+										data-col-id={cell.text}
+										onClick={(e) => {
+											sortColumns(e.target.getAttribute('data-col-id'));
+										}}
+										className={`fa ${
+											cell.isSorted ? 'fa-sort-asc' : 'fa-sort-desc'
+										}`}
+										aria-hidden="true"
+									></i>
+								)}
+							</>
 						)}
 					</>
 				);
@@ -193,6 +237,20 @@ function Sherlock() {
 		}
 	}
 
+	const applyChangesToPeople = (changes, prevPeople) => {
+		changes.forEach((change) => {
+			console.log('change::::', change);
+			const personIndex = change.rowId;
+			const fieldName = change.columnId;
+			prevPeople[personIndex][fieldName] = change.newCell.text;
+		});
+		return [...prevPeople];
+	};
+
+	const handleChanges = (changes) => {
+		setPeople((prevPeople) => applyChangesToPeople(changes, prevPeople));
+	};
+
 	return (
 		<div className="columns">
 			<input onChange={handleFilter} type="text" />
@@ -200,7 +258,8 @@ function Sherlock() {
 				rows={rows}
 				columns={columns}
 				enableColumnSelection
-				onFocusLocationChanged={(e) => console.log('e::::', e)}
+				onCellsChanged={handleChanges}
+				//onFocusLocationChanged={(e) => console.log('e::::', e)}
 				customCellTemplates={{ myText: new FlagCellTemplate() }}
 			/>
 		</div>
